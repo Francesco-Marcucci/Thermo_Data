@@ -212,8 +212,8 @@ def run_turbofan_analysis_test(alt, MN, Fn):
                 "DESIGN", HBTF(thermo_method="CEA")
             )  # Create an instance of the High Bypass ratio Turbofan
 
-            self.set_input_defaults("DESIGN.inlet.MN", 0.3)
-            self.set_input_defaults("DESIGN.fan.MN", 0.3)
+            self.set_input_defaults("DESIGN.inlet.MN", 0.751)
+            self.set_input_defaults("DESIGN.fan.MN", 0.4578)
             self.set_input_defaults("DESIGN.splitter.BPR", 5.105)
             self.set_input_defaults("DESIGN.splitter.MN1", 0.3104)
             self.set_input_defaults("DESIGN.splitter.MN2", 0.4518)
@@ -290,14 +290,14 @@ def run_turbofan_analysis_test(alt, MN, Fn):
     prob.set_val("DESIGN.Fn_DES", Fn, units="lbf")
 
     # Set initial guesses for balances
-    prob["DESIGN.balance.FAR"] = 0.1
-    prob["DESIGN.balance.W"] = 10.0
-    prob["DESIGN.balance.lpt_PR"] = 10.0
-    prob["DESIGN.balance.hpt_PR"] = 2.0
-    prob["DESIGN.fc.balance.Pt"] = 2
-    prob["DESIGN.fc.balance.Tt"] = 500.0
+    # prob["DESIGN.balance.FAR"] = 0.1
+    # prob["DESIGN.balance.W"] = 10.0
+    # prob["DESIGN.balance.lpt_PR"] = 10.0
+    # prob["DESIGN.balance.hpt_PR"] = 2.0
+    # prob["DESIGN.fc.balance.Pt"] = 2
+    # prob["DESIGN.fc.balance.Tt"] = 500.0
 
-    if Fn > 7500:
+    if Fn >= 7500:
         prob["DESIGN.balance.FAR"] = 0.1
         prob["DESIGN.balance.W"] = 20
         prob["DESIGN.balance.lpt_PR"] = 10.0
@@ -305,18 +305,11 @@ def run_turbofan_analysis_test(alt, MN, Fn):
         prob["DESIGN.fc.balance.Pt"] = 2
         prob["DESIGN.fc.balance.Tt"] = 500.0
 
-    elif 15000 <= Fn < 50000:
-        prob["DESIGN.balance.FAR"] = 0.1
-        prob["DESIGN.balance.W"] = 20
-        prob["DESIGN.balance.lpt_PR"] = 10.0
-        prob["DESIGN.balance.hpt_PR"] = 2.0
-        prob["DESIGN.fc.balance.Pt"] = 2
-        prob["DESIGN.fc.balance.Tt"] = 500.0
 
     else:
         prob["DESIGN.balance.FAR"] = 0.1
         prob["DESIGN.balance.W"] = 10.0
-        prob["DESIGN.balance.lpt_PR"] = 10.0
+        prob["DESIGN.balance.lpt_PR"] = 2
         prob["DESIGN.balance.hpt_PR"] = 2.0
         prob["DESIGN.fc.balance.Pt"] = 2
         prob["DESIGN.fc.balance.Tt"] = 500.0
