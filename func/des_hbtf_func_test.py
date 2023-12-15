@@ -289,14 +289,6 @@ def run_turbofan_analysis_test(alt, MN, Fn):
     prob.set_val("DESIGN.T4_MAX", 2857, units="degR")
     prob.set_val("DESIGN.Fn_DES", Fn, units="lbf")
 
-    # Set initial guesses for balances
-    # prob["DESIGN.balance.FAR"] = 0.1
-    # prob["DESIGN.balance.W"] = 10.0
-    # prob["DESIGN.balance.lpt_PR"] = 10.0
-    # prob["DESIGN.balance.hpt_PR"] = 2.0
-    # prob["DESIGN.fc.balance.Pt"] = 2
-    # prob["DESIGN.fc.balance.Tt"] = 500.0
-
     if Fn >= 7500:
         prob["DESIGN.balance.FAR"] = 0.1
         prob["DESIGN.balance.W"] = 20
