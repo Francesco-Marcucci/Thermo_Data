@@ -289,32 +289,25 @@ def run_turbofan_analysis_test(alt, MN, Fn):
     prob.set_val("DESIGN.T4_MAX", 2857, units="degR")
     prob.set_val("DESIGN.Fn_DES", Fn, units="lbf")
 
-    if Fn > 2700:
-        prob["DESIGN.balance.FAR"] = 0.0175506829934
-        prob["DESIGN.balance.W"] = 75.453135137
-        prob["DESIGN.balance.lpt_PR"] = 4.0
-        prob["DESIGN.balance.hpt_PR"] = 3.0
-        prob["DESIGN.fc.balance.Pt"] = 5.2
-        prob["DESIGN.fc.balance.Tt"] = 440.0
+    if Fn >= 7500:
+        prob["DESIGN.balance.FAR"] = 0.1
+        prob["DESIGN.balance.W"] = 20
+        prob["DESIGN.balance.lpt_PR"] = 10.0
+        prob["DESIGN.balance.hpt_PR"] = 2.0
+        prob["DESIGN.fc.balance.Pt"] = 2
+        prob["DESIGN.fc.balance.Tt"] = 500.0
 
-    elif 2700 <= Fn < 850:
-        prob["DESIGN.balance.FAR"] = 0.0175506829934
-        prob["DESIGN.balance.W"] = 50.453135137
-        prob["DESIGN.balance.lpt_PR"] = 4.0
-        prob["DESIGN.balance.hpt_PR"] = 3.0
-        prob["DESIGN.fc.balance.Pt"] = 5.2
-        prob["DESIGN.fc.balance.Tt"] = 440.0
 
     else:
-        prob["DESIGN.balance.FAR"] = 0.0175506829934
-        prob["DESIGN.balance.W"] = 10.453135137
-        prob["DESIGN.balance.lpt_PR"] = 4.0
-        prob["DESIGN.balance.hpt_PR"] = 3.0
-        prob["DESIGN.fc.balance.Pt"] = 5.2
-        prob["DESIGN.fc.balance.Tt"] = 440.0
+        prob["DESIGN.balance.FAR"] = 0.1
+        prob["DESIGN.balance.W"] = 10.0
+        prob["DESIGN.balance.lpt_PR"] = 2
+        prob["DESIGN.balance.hpt_PR"] = 2.0
+        prob["DESIGN.fc.balance.Pt"] = 2
+        prob["DESIGN.fc.balance.Tt"] = 500.0
 
     prob.set_solver_print(level=-1)
-    # prob.set_solver_print(level=2, depth=1)
+    prob.set_solver_print(level=2, depth=1)
 
     prob.run_model()
 
@@ -405,4 +398,3 @@ if __name__ == "__main__":
     Fn = float(input("insert net force lbf: "))
 
     run_turbofan_analysis_test(alt, MN, Fn)
-    print("temperature [celsius], stat velocity [m/s], MN for bypass and core")

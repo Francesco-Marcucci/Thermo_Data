@@ -345,11 +345,11 @@ if __name__ == "__main__":
     prob.set_val("DESIGN.hpt.eff", 0.8888)
     prob.set_val("DESIGN.lpt.eff", 0.8996)
 
-    prob.set_val("DESIGN.fc.alt", 0, units="ft")
+    prob.set_val("DESIGN.fc.alt", 5000, units="ft")
     prob.set_val("DESIGN.fc.MN", 0.7)
 
     prob.set_val("DESIGN.T4_MAX", 2857, units="degR")
-    prob.set_val("DESIGN.Fn_DES", 5000, units="lbf")
+    prob.set_val("DESIGN.Fn_DES", 450, units="lbf")
 
     # Set initial guesses for balances
     prob["DESIGN.balance.FAR"] = 0.1
@@ -387,12 +387,19 @@ if __name__ == "__main__":
     T_tot_out_byp = convert_temperature(
         (prob.get_val("DESIGN.byp_nozz.throat_total.flow.Fl_O:tot:T")),
         "Rankine",
-        "Kelvin",
+        "Celsius",
     )
     V_stat_out_byp = prob.get_val("DESIGN.byp_nozz.mux.Fl_O:stat:V") * 0.3048
     MN_out_byp = prob.get_val("DESIGN.byp_nozz.mux.Fl_O:stat:MN")
-    print("byp t tot ,        v stat,        MN: ")
-    print(T_tot_out_byp, V_stat_out_byp, MN_out_byp)
+    P_tot_out_byp = (
+        prob.get_val("DESIGN.byp_nozz.throat_total.flow.Fl_O:tot:P") * 6894.7573
+    )  # Pa
+    massflow_stat_out_byp = (
+        prob.get_val("DESIGN.byp_nozz.mux.Fl_O:stat:W") * 0.45359237
+    )  # kg/s
+    T_stat_out_byp = convert_temperature(
+        (prob.get_val("DESIGN.byp_nozz.mux.Fl_O:stat:T")), "Rankine", "Celsius"
+    )  # celsius
 
     # CORE VARIABLES
     T_tot_out_core = convert_temperature(
@@ -402,6 +409,41 @@ if __name__ == "__main__":
     )
     V_stat_out_core = prob.get_val("DESIGN.core_nozz.mux.Fl_O:stat:V") * 0.3048
     MN_out_core = prob.get_val("DESIGN.core_nozz.mux.Fl_O:stat:MN")
+    P_tot_out_core = (
+        prob.get_val("DESIGN.core_nozz.throat_total.flow.Fl_O:tot:P") * 6894.7573
+    )  # Pa
+    massflow_stat_out_core = (
+        prob.get_val("DESIGN.core_nozz.mux.Fl_O:stat:W") * 0.45359237
+    )  # kg/s
+    T_stat_out_core = convert_temperature(
+        (prob.get_val("DESIGN.core_nozz.mux.Fl_O:stat:T")), "Rankine", "Kelvin"
+    )  # celsius
 
-    print("core t tot ,       v stat,          MN: ")
-    print(T_tot_out_core, V_stat_out_core, MN_out_core)
+    res = np.array(
+        [
+            T_tot_out_byp,
+            V_stat_out_byp,
+            MN_out_byp,
+            P_tot_out_byp,
+            massflow_stat_out_byp,
+            T_stat_out_byp,
+            T_tot_out_core,
+            V_stat_out_core,
+            MN_out_core,
+            P_tot_out_core,
+            massflow_stat_out_core,
+            T_stat_out_core,
+        ]
+    )
+    print(f"T_tot_out_core = {T_tot_out_core} [K]")
+    print(f"V_stat_out_core = {V_stat_out_core} [m/s]")
+    print(f"MN_out_core = {MN_out_core} [adim]")
+    print(f"P_tot_out_core = {P_tot_out_core} [Pa]")
+    print(f"massflow_out_core = {massflow_stat_out_core} [kg/s]")
+    print(f"T_stat_out_core = {T_stat_out_core} [K]")
+    print(f"T_tot_out_byp = {T_tot_out_byp} [K]")
+    print(f"V_stat_out_byp = {V_stat_out_byp} [m/s]")
+    print(f"MN_out_byp = {MN_out_byp} [adim]")
+    print(f"P_tot_out_byp = {P_tot_out_byp} [Pa]")
+    print(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]")
+    print(f"T_stat_out_core = {T_stat_out_core} [K]")

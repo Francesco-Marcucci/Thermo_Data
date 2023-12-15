@@ -10,7 +10,6 @@ import re
 
 from scipy.constants import convert_temperature
 
-# prova
 class Turbojet(pyc.Cycle):
     def setup(self):
 
